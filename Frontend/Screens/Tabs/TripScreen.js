@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const TripScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>History Screen</Text>
+      <Text style={styles.title}>Trip Screen</Text>
     </View>
   );
 };

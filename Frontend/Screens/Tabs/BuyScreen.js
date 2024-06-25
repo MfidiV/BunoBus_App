@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const BuyScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>History Screen</Text>
+      <Text style={styles.title}>Buy Screen</Text>
     </View>
   );
 };
