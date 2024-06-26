@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,14 +76,18 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Database configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # or 'django.db.backends.postgresql', 'django.db.backends.sqlite3', etc.
-        'NAME': 'buno_buses',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': 'localhost', 
-        'PORT': '3306', 
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
