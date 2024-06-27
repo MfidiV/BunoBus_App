@@ -1,7 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
-import * as FileSystem from 'expo-file-system';
-import { MaterialIcons } from '@expo/vector-icons'; // Using expo icons for checkbox
+import { MaterialIcons } from '@expo/vector-icons';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -22,28 +22,30 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    const fileUri = FileSystem.documentDirectory + 'users.json';
-    console.log('File URI:', fileUri);
+    // Determine base URL
+    const baseURL = Platform.select({
+      ios: 'http://192.168.0.2:8000',
+      android: 'http://192.168.0.2:8000',
+      default: 'http://192.168.0.2:8000'
+    });
+
 
     try {
-      const fileInfo = await FileSystem.getInfoAsync(fileUri);
-      let users = [];
-      if (fileInfo.exists) {
-        const data = await FileSystem.readAsStringAsync(fileUri);
-        users = JSON.parse(data);
-      }
-      const userExists = users.some(u => u.email === email);
-      if (userExists) {
-        Alert.alert('User already exists');
-      } else {
-        users.push({ name, surname, email, password, numberOfTrips: 0 });
-        await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(users));
+      const response = await axios.post(`${baseURL}/api/users/`, {
+        name,
+        surname,
+        email,
+        password,
+      });
+      if (response.status === 201) {
         Alert.alert('User registered successfully');
-        console.log('Users:', JSON.stringify(users));
         navigation.navigate('Login');  // Navigate to Login screen
+      } else {
+        Alert.alert('Registration failed');
       }
     } catch (error) {
       console.error(error);
+      Alert.alert('An error occurred while registering');
     }
   };
 

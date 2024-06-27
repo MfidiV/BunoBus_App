@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-l(0%+cfbbqz6n_=72-9x8hfkhxa$ygus)t7bj&tf=hcjh(tw12
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Add your local IP address to ALLOWED_HOSTS
+ALLOWED_HOSTS = ['192.168.0.2']
+
+# Optionally, you can also add localhost and your PC's hostname for development
+ALLOWED_HOSTS += ['localhost', '127.0.0.1', 'your-pc-hostname']
+
+# Ensure CORS is correctly configured if using CORS headers
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development purposes
 
 
 # Application definition
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'busApp',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'Backend.urls'
 
