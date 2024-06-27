@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -19,3 +20,8 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users'
+
+    def save(self, *args, **kwargs):
+        if not self.pk or self.password != User.objects.get(pk=self.pk).password:
+            self.password = make_password(self.password)
+        super(User, self).save(*args, **kwargs)
