@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   checkboxLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333',
   },
   button: {
